@@ -1,3 +1,7 @@
 Todo.TasksTableController = Ember.ArrayController.extend
-  sortProperties: ['isDone']
+  itemController: 'TaskTableRow'
+
+  enterEditMode: (task) -> task.enterEditMode()
+  cancelEditMode: (task) -> task.cancelEditMode()
+  save: (task) -> task.save()
 
