@@ -1,5 +1,3 @@
 class TaskSerializer < ActiveModel::Serializer
-  has_one :list
-
-  attributes :id, :name, :is_done, :minutes_estimated_to_complete
+  attributes :id, :name, :is_done, :minutes_estimated_to_complete, :list_id
 end
