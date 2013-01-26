@@ -1,3 +1,3 @@
 Ember.Handlebars.registerBoundHelper 'humanTimeLength', (minutes) ->
   if minutes
-    minutes + ' min'
+    parseInt(minutes, 10) + ' min'
