@@ -11,6 +11,7 @@ Todo.TaskTableRowController = Ember.ObjectController.extend
     @set 'isEditing', true
 
   cancelEditMode: ->
+    @get('model').deleteRecord() if @get('model.isNew')
     @rollbackTransaction()
     @set 'isEditing', false
 
