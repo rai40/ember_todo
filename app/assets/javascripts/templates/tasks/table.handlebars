@@ -1,30 +1,25 @@
 <table class="tasks table table-striped table-hover">
   <tr>
     <th class="span1">Done</th>
-    <th class="span6">Task</th>
-    <th>Est. duration</th>
-    <th></th>
+    <th class="span5">Task</th>
+    <th class="span2">Est. duration</th>
+    <th class="span1"></th>
   </tr>
 
   {{#each controller}}
-    <tr>
-      <td>{{view Ember.Checkbox checkedBinding="isDone" disabledBinding=isNotEditing}}</td>
       {{#if isEditing}}
-        <td>{{view Ember.TextField valueBinding="name" class="span5"}}</td>
-        <td>{{view Ember.TextField valueBinding="minutesEstimatedToComplete" type="number" class="span1"}}</td>
-        <td class="actions">
-            <button class="btn btn-mini btn-primary" {{action save this}}>Save</button>
-            <button class="btn btn-mini" {{action cancelEditMode this}}>Cancel</button>
-        </td>
+        {{view Todo.TaskTableRowEditView}}
       {{else}}
+      <tr>
+        <td>{{view Ember.Checkbox checkedBinding="isDone" disabledBinding=isNotEditing}}</td>
         <td>{{name}}</td>
         <td>{{humanTimeLength minutesEstimatedToComplete}}</td>
         <td class="actions">
           <button class="btn btn-mini btn-warning" {{action enterEditMode this}}>Edit</button>
           <button class="btn btn-mini btn-danger" {{action deleteTask this}}>Delete</button>
         </td>
+      </tr>
       {{/if}}
-    </tr>
   {{else}}
     <tr>
       <td colspan="4">No tasks, yet.</td>
@@ -33,5 +28,5 @@
 </table>
 
 <div class="actions trailer">
-  <button class="btn btn-primary" {{action addTask}}>Add Task</button>
+  <button class="btn btn-primary" {{action addTask}} {{bindAttr disabled="isAddingNew"}}>Add Task</button>
 </div>
