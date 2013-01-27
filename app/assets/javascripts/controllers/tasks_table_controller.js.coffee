@@ -2,6 +2,11 @@ Todo.TasksTableController = Ember.ArrayController.extend
   itemController: 'TaskTableRow'
   isAddingNew: false
 
+  contentWillChange: (->
+    @filterProperty('isEditing').invoke 'cancelEditMode'
+  ).observesBefore('content')
+
+
   addTask: ->
     list = @controllerFor('list').get 'model'
     store = list.get 'store'
@@ -15,8 +20,12 @@ Todo.TasksTableController = Ember.ArrayController.extend
     @set 'isAddingNew', true
 
 
-  isEditingChangedAfterAddingTask: (controller, key, isEditing) ->
-    @set 'isAddingNew', isEditing
+  isEditingChangedAfterAddingTask: (itemController, key) ->
+    exitedEditingMode = not itemController.get(key)
+    if exitedEditingMode
+      itemController.removeObserver 'isEditing', @, 'isEditingChangedAfterAddingTask'
+      @set 'isAddingNew', false
+
 
 
   enterEditMode: (task) -> task.enterEditMode()
