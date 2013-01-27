@@ -10,15 +10,7 @@
       {{#if isEditing}}
         {{view Todo.TaskTableRowEditView}}
       {{else}}
-      <tr>
-        <td><i {{bindAttr class="doneIcon"}}></i></td>
-        <td>{{name}}</td>
-        <td>{{humanTimeLength minutesEstimatedToComplete}}</td>
-        <td class="actions">
-          <button class="btn btn-mini btn-warning" {{action enterEditMode this}}>Edit</button>
-          <button class="btn btn-mini btn-danger" {{action deleteTask this}}>Delete</button>
-        </td>
-      </tr>
+        {{view Todo.TaskTableRowShowView}}
       {{/if}}
   {{else}}
     <tr>
