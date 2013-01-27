@@ -6,8 +6,8 @@ Todo.TaskTableRowController = Ember.ObjectController.extend
     not @get('isEditing')
   .property('isEditing')
 
-  enterEditMode: ->
-    @beginTransaction()
+  enterEditMode: (transaction) ->
+    @beginTransaction transaction
     @set 'isEditing', true
 
   cancelEditMode: ->
@@ -30,8 +30,8 @@ Todo.TaskTableRowController = Ember.ObjectController.extend
   store: ->
     @get('model.store')
 
-  beginTransaction: ->
-    @set 'transaction', @store().transaction()
+  beginTransaction: (transaction) ->
+    @set 'transaction', transaction || @store().transaction()
     @get('transaction').add @get('model')
 
   rollbackTransaction: ->
