@@ -14,9 +14,21 @@
     display: block
 
 
-table.tasks
+table
   input
     margin-bottom: 0 !important
+    padding: 1px 4px !important
 
-  .actions
-    width: 100px
+  tr
+    height: 40px
+
+    .actions
+      width: 100px
+
+      button
+        display: none
+
+  tr:hover, tr.is-editing
+    .actions
+      button
+        display: inline
