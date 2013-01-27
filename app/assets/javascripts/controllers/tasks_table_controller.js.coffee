@@ -20,8 +20,12 @@ Todo.TasksTableController = Ember.ArrayController.extend
     @set 'isAddingNew', true
 
 
-  isEditingChangedAfterAddingTask: (controller, key, isEditing) ->
-    @set 'isAddingNew', isEditing
+  isEditingChangedAfterAddingTask: (itemController, key) ->
+    exitedEditingMode = not itemController.get(key)
+    if exitedEditingMode
+      itemController.removeObserver 'isEditing', @, 'isEditingChangedAfterAddingTask'
+      @set 'isAddingNew', false
+
 
 
   enterEditMode: (task) -> task.enterEditMode()
