@@ -1,15 +1,16 @@
 source 'https://rubygems.org'
-
-gem 'sqlite3'
+ruby '1.9.3'
 
 gem 'rails', '3.2.11'
-gem 'ember-rails', github: 'emberjs/ember-rails'
+gem 'pg'
 gem 'strong_parameters'
 gem 'active_model_serializers'
 
 gem 'bootstrap-sass'
 gem 'compass-rails'
 
+gem 'ember-rails', github: 'emberjs/ember-rails'
+gem 'jquery-rails'
 
 group :assets do
   gem 'sass-rails',   '~> 3.2.3'
@@ -17,5 +18,3 @@ group :assets do
 
   gem 'uglifier', '>= 1.0.3'
 end
-
-gem 'jquery-rails'
