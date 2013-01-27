@@ -2,6 +2,11 @@ Todo.TasksTableController = Ember.ArrayController.extend
   itemController: 'TaskTableRow'
   isAddingNew: false
 
+  contentWillChange: (->
+    @filterProperty('isEditing').invoke 'cancelEditMode'
+  ).observesBefore('content')
+
+
   addTask: ->
     list = @controllerFor('list').get 'model'
     store = list.get 'store'
