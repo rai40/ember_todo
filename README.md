@@ -14,7 +14,7 @@ I have made some tags on this repo to mark "milestones".
 
 Can I see it up and running?
 ----------------------------
-Yes you can. At the moment is up and running here: http://ember-todo.herokuapp.com/.
+Yes you can. At the moment is up and running here: http://ember-todo.skalar.no/.
 
 
 What is missing?
