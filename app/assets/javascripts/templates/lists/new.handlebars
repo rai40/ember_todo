@@ -2,10 +2,7 @@
 
 <div class="form-horizontal">
   <div class="control-group">
-    <label for="name" class="control-label">List name</label>
-    <div class="controls">
-      {{view Ember.TextField valueBinding="name" id="name" action="create"}}
-    </div>
+    {{view Bootstrap.Forms.TextField valueBinding="name" action="create"}}
   </div>
   <div class="form-actions">
     <input {{action create}} type="submit" class="btn btn-primary" value="Create List" />
