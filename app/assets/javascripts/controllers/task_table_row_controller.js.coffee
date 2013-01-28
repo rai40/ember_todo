@@ -6,10 +6,6 @@ Todo.TaskTableRowController = Ember.ObjectController.extend
     not @get('isEditing')
   .property('isEditing')
 
-  doneIcon: Ember.computed ->
-    if @get('isDone') then 'icon-check' else 'icon-minus'
-  .property('isDone')
-
   enterEditMode: (transaction) ->
     @beginTransaction transaction
     @set 'isEditing', true
@@ -18,6 +14,10 @@ Todo.TaskTableRowController = Ember.ObjectController.extend
     @set 'isEditing', false
     @get('model').deleteRecord() if @get('model.isNew')
     @rollbackTransaction()
+
+  markAsDone: ->
+    @set 'isDone', true
+    @store().commit()
 
   save: ->
     @commitTransaction()
