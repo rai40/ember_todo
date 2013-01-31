@@ -4,7 +4,7 @@ Todo.ListsNewRoute = Ember.Route.extend
   events:
     create: ->
       record = Todo.List.createRecord @currentModel.getProperties('name')
-      record.on 'didCreate', => setTimeout (=> @transitionTo 'list', record), 0
+      record.one 'didCreate', => setTimeout (=> @transitionTo 'list', record), 0
       record.get('store').commit()
 
     cancel: ->
