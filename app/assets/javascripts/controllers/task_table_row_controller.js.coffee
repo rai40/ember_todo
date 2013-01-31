@@ -1,17 +1,12 @@
 Todo.TaskTableRowController = Ember.ObjectController.extend
   isEditing: false
-  transaction: null
 
   isNotEditing: Ember.computed ->
     not @get('isEditing')
   .property('isEditing')
 
-  doneIcon: Ember.computed ->
-    if @get('isDone') then 'icon-check' else 'icon-minus'
-  .property('isDone')
-
-  enterEditMode: (transaction) ->
-    @beginTransaction transaction
+  enterEditMode: ->
+    @beginTransaction() unless @get('model.isNew')
     @set 'isEditing', true
 
   cancelEditMode: ->
@@ -19,29 +14,36 @@ Todo.TaskTableRowController = Ember.ObjectController.extend
     @get('model').deleteRecord() if @get('model.isNew')
     @rollbackTransaction()
 
+  markAsDone: ->
+    @set 'isDone', true
+    @store().commit()
+
   save: ->
-    @commitTransaction()
-    @set 'isEditing', false
+    if @get('model.isDirty')
+      @get('model').one 'didCreate', => @set 'isEditing', false
+      @get('model').one 'didUpdate', => @set 'isEditing', false
+      @commitTransaction()
+    else
+      @rollbackTransaction()
+      @set 'isEditing', false
 
   delete: ->
     record = @get('model')
     if confirm 'Are you sure you want to delete ' + record.get('name') + '?'
       record.get('list.tasks').removeObject record # Do I have to do this? Why? ;-(
       record.deleteRecord()
-      @store().commit()
+      @commitTransaction()
 
 
 
   store: ->
     @get('model.store')
 
-  beginTransaction: (transaction) ->
-    @set 'transaction', transaction || @store().transaction()
-    @get('transaction').add @get('model')
+  beginTransaction:  ->
+    @store().transaction().add @get('model')
 
   rollbackTransaction: ->
-    @get('transaction').rollback()
-
+    @get('model.transaction').rollback()
 
   commitTransaction: ->
-    @get('transaction').commit()
+    @get('model.transaction').commit()

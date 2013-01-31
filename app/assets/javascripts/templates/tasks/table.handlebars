@@ -1,17 +1,17 @@
 <table class="tasks table table-striped table-hover">
   <tr>
-    <th class="span1">Done</th>
-    <th class="span5">Task</th>
-    <th class="span2">Est. duration</th>
-    <th class="span1"></th>
+    <th class="is-done"></th>
+    <th class="task">Task</th>
+    <th class="estimate">Est. duration</th>
+    <th class="actions"></th>
   </tr>
 
   {{#each controller}}
-      {{#if isEditing}}
-        {{view Todo.TaskTableRowEditView}}
-      {{else}}
-        {{view Todo.TaskTableRowShowView}}
-      {{/if}}
+    {{#if isEditing}}
+      {{view Todo.TaskTableRowEditView}}
+    {{else}}
+      {{view Todo.TaskTableRowShowView}}
+    {{/if}}
   {{else}}
     <tr>
       <td colspan="4">No tasks, yet.</td>

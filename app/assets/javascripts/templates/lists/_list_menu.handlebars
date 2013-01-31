@@ -1,5 +1,5 @@
 <ul class="nav nav-pills nav-stacked">
-  {{#each list in controller}}
+  {{#each list in persistedLists}}
     {{#linkTo "list" list tagName="li" href=false}}
       {{#linkTo "list" list}}
         {{list.name}}

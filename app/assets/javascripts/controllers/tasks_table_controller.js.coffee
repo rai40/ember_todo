@@ -14,7 +14,7 @@ Todo.TasksTableController = Ember.ArrayController.extend
     task = transaction.createRecord Todo.Task, list: list
 
     itemController = @itemControllerFor(task)
-    itemController.enterEditMode(transaction)
+    itemController.enterEditMode()
     itemController.addObserver 'isEditing', @, 'isEditingChangedAfterAddingTask'
 
     @set 'isAddingNew', true
@@ -31,6 +31,7 @@ Todo.TasksTableController = Ember.ArrayController.extend
   enterEditMode: (task) -> task.enterEditMode()
   cancelEditMode: (task) -> task.cancelEditMode()
   save: (task) -> task.save()
+  markAsDone: (task) -> task.markAsDone()
   deleteTask: (task) -> task.delete()
 
 

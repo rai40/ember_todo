@@ -1,7 +1,9 @@
-<td><i {{bindAttr class="doneIcon"}}></i></td>
+<td>{{#if isDone}}<i class="icon-check">{{/if}}</i></td>
 <td>{{name}}</td>
 <td>{{humanTimeLength minutesEstimatedToComplete}}</td>
 <td class="actions">
+  {{#unless isDone}}
+    <button class="edit btn btn-mini btn-primary" {{action markAsDone this}}>Completed</button>
+  {{/unless}}
   <button class="edit btn btn-mini btn-warning" {{action enterEditMode this}}>Edit</button>
-  <button class="btn btn-mini btn-danger" {{action deleteTask this}}>Delete</button>
 </td>
