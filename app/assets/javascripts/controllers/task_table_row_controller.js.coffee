@@ -28,7 +28,7 @@ Todo.TaskTableRowController = Ember.ObjectController.extend
     if confirm 'Are you sure you want to delete ' + record.get('name') + '?'
       record.get('list.tasks').removeObject record # Do I have to do this? Why? ;-(
       record.deleteRecord()
-      @store().commit()
+      @commitTransaction()
 
 
 
