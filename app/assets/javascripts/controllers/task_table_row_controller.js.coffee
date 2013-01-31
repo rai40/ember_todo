@@ -1,13 +1,12 @@
 Todo.TaskTableRowController = Ember.ObjectController.extend
   isEditing: false
-  transaction: null
 
   isNotEditing: Ember.computed ->
     not @get('isEditing')
   .property('isEditing')
 
-  enterEditMode: (transaction) ->
-    @beginTransaction transaction
+  enterEditMode: ->
+    @beginTransaction() unless @get('model.isNew')
     @set 'isEditing', true
 
   cancelEditMode: ->
@@ -20,8 +19,13 @@ Todo.TaskTableRowController = Ember.ObjectController.extend
     @store().commit()
 
   save: ->
-    @commitTransaction()
-    @set 'isEditing', false
+    if @get('model.isDirty')
+      @get('model').one 'didCreate', => @set 'isEditing', false
+      @get('model').one 'didUpdate', => @set 'isEditing', false
+      @commitTransaction()
+    else
+      @rollbackTransaction()
+      @set 'isEditing', false
 
   delete: ->
     record = @get('model')
@@ -35,13 +39,11 @@ Todo.TaskTableRowController = Ember.ObjectController.extend
   store: ->
     @get('model.store')
 
-  beginTransaction: (transaction) ->
-    @set 'transaction', transaction || @store().transaction()
-    @get('transaction').add @get('model')
+  beginTransaction:  ->
+    @store().transaction().add @get('model')
 
   rollbackTransaction: ->
-    @get('transaction').rollback()
-
+    @get('model.transaction').rollback()
 
   commitTransaction: ->
-    @get('transaction').commit()
+    @get('model.transaction').commit()
