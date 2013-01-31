@@ -14,6 +14,8 @@
     display: block
 
 
+
+
 table
   input
     margin-bottom: 0 !important
@@ -22,19 +24,36 @@ table
   tr
     height: 40px
 
-    th
-      &.is-done
-        width: 14px
-      &.estimate
-        width: 100px
-      &.actions
-        width: 140px
-
-    .actions
-      width: 100px
-
-      button
+    td
+      label.control-label
         display: none
+
+      div
+        display: inline-block
+        margin: 0 !important
+
+table.tasks
+  th
+    &.is-done
+      width: 14px
+    &.estimate
+      width: 100px
+    &.actions
+      width: 140px
+
+
+  tr
+    td
+      input[type=text]
+        width: 360px
+      input[type=number]
+        width: 80px
+
+  .actions
+    width: 100px
+
+    button
+      display: none
 
   tr:hover, tr.is-editing
     .actions
