@@ -3,6 +3,5 @@ Todo.ListRoute = Ember.Route.extend
     delete: ->
       if confirm 'Are you sure you want to delete ' + @currentModel.get('name') + '?'
         @currentModel.deleteRecord()
-        @currentModel.get('store').commit()
+        @store.commit()
         @transitionTo 'index'
-

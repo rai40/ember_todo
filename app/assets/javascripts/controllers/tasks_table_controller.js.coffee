@@ -9,7 +9,7 @@ Todo.TasksTableController = Ember.ArrayController.extend
 
 
   addTask: ->
-    list = controllers.list.get 'model'
+    list = @get('controllers.list').get 'model'
     store = list.get 'store'
     transaction = store.transaction()
     task = transaction.createRecord Todo.Task, list: list

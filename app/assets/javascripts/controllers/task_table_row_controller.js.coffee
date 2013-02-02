@@ -16,7 +16,7 @@ Todo.TaskTableRowController = Ember.ObjectController.extend
 
   markAsDone: ->
     @set 'isDone', true
-    @store().commit()
+    @store.commit()
 
   save: ->
     if @get('model.isDirty')
@@ -34,13 +34,8 @@ Todo.TaskTableRowController = Ember.ObjectController.extend
       record.deleteRecord()
       @commitTransaction()
 
-
-
-  store: ->
-    @get('model.store')
-
   beginTransaction:  ->
-    @store().transaction().add @get('model')
+    @store.transaction().add @get('model')
 
   rollbackTransaction: ->
     @get('model.transaction').rollback()
