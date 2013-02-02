@@ -22,6 +22,7 @@ What does it have examples of?
 * Basic ember-rails setup.
 * Some transaction uses.
 * Twitter Bootstrap and Ember.
+* Simple views binding to DOM events triggering controller actions.
 * Validations.
 
 

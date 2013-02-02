@@ -4,3 +4,11 @@ Todo.TaskTableRowEditView = Ember.View.extend
   classNames: ['is-editing']
 
   didInsertElement: -> @$("input[type=text]").focus()
+
+  keyDown: (event) ->
+    taskController = @get 'content'
+    action = {27: 'cancelEditMode', 13: 'save'}[event.keyCode]
+
+    if action
+      $(event.target).blur()
+      taskController[action]()

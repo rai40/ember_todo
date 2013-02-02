@@ -8,9 +8,9 @@
 
   {{#each controller}}
     {{#if isEditing}}
-      {{view Todo.TaskTableRowEditView}}
+      {{view Todo.TaskTableRowEditView contentBinding=this}}
     {{else}}
-      {{view Todo.TaskTableRowShowView}}
+      {{view Todo.TaskTableRowShowView contentBinding=this}}
     {{/if}}
   {{else}}
     <tr>
