@@ -1,4 +1,5 @@
 Todo.TaskTableRowController = Ember.ObjectController.extend
+  needs: ['regrets']
   isEditing: false
 
   isNotEditing: Ember.computed ->
@@ -28,11 +29,13 @@ Todo.TaskTableRowController = Ember.ObjectController.extend
       @set 'isEditing', false
 
   delete: ->
-    record = @get('model')
-    if confirm 'Are you sure you want to delete ' + record.get('name') + '?'
-      record.get('list.tasks').removeObject record # Do I have to do this? Why? ;-(
-      record.deleteRecord()
-      @commitTransaction()
+    record = @get 'model'
+    tasks = record.get('list.tasks')
+
+    @get('controllers.regrets').deleteWithRegret record,
+      transaction: @get('model.transaction')
+      onSetupRegret: => tasks.removeObject record # Do I have to do this? Why? ;-(
+      onRegret: => tasks.pushObject record
 
   beginTransaction:  ->
     @store.transaction().add @get('model')

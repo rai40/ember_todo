@@ -4,4 +4,4 @@ Todo.ListRoute = Ember.Route.extend
   events:
     delete: ->
       @controllerFor('regrets').deleteWithRegret @currentModel
-      @transitionTo 'index'
+      @transitionTo 'lists'
