@@ -30,3 +30,4 @@ Todo.RegretsController = Ember.ArrayController.extend
 
   regretFor: (object) -> @find (regretController) -> regretController.content == object
   regret: (regret) -> regret.regret()
+  expire: (regret) -> regret.expire()

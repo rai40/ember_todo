@@ -17,7 +17,7 @@ Todo.RegretController = Ember.ObjectController.extend
 
 
   regret: ->
-    Ember.run.cancel @get('regretTimer') if @get('regretTimer')
+    @cancelTimer()
     @get('controllers.regrets').removeObject @
 
     if callback = @get('regretOptions.onRegret') then callback()
@@ -25,5 +25,8 @@ Todo.RegretController = Ember.ObjectController.extend
     @get('model.transaction').rollback()
 
   expire: ->
+    @cancelTimer()
     @get('controllers.regrets').removeObject @
     @get('model.transaction').commit()
+
+  cancelTimer: -> Ember.run.cancel @get('regretTimer') if @get('regretTimer')
