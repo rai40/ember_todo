@@ -1,8 +1,0 @@
-<td>{{view Ember.Checkbox checkedBinding="isDone" disabledBinding=isNotEditing}}</td>
-<td>{{view Bootstrap.Forms.TextField valueBinding="name"}}</td>
-<td>{{view Bootstrap.Forms.TextField valueBinding="minutesEstimatedToComplete" type="number"}}</td>
-<td class="actions">
-  <button class="btn btn-mini btn-primary" {{action save this}}>Save</button>
-  <button class="btn btn-mini btn-danger" {{action deleteTask this}}>Delete</button>
-  <button class="btn btn-mini" {{action cancelEditMode this}}>Cancel</button>
-</td>

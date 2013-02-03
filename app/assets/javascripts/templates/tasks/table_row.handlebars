@@ -1,0 +1,20 @@
+{{#if view.content.isEditing}}
+  <td>{{view Ember.Checkbox checkedBinding="view.content.isDone"}}</td>
+  <td>{{view Bootstrap.Forms.TextField valueBinding="view.content.name"}}</td>
+  <td>{{view Bootstrap.Forms.TextField valueBinding="view.content.minutesEstimatedToComplete" type="number"}}</td>
+  <td class="actions">
+    <button class="btn btn-mini btn-primary" {{action save view.content}}>Save</button>
+    <button class="btn btn-mini btn-danger" {{action deleteTask view.content}}>Delete</button>
+    <button class="btn btn-mini" {{action cancelEditMode view.content}}>Cancel</button>
+  </td>
+{{else}}
+  <td>{{#if view.content.isDone}}<i class="icon-check">{{/if}}</i></td>
+  <td>{{view.content.name}}</td>
+  <td>{{humanTimeLength view.content.minutesEstimatedToComplete}}</td>
+  <td class="actions">
+    {{#unless view.content.isDone}}
+      <button class="btn btn-mini btn-primary" {{action markAsDone view.content}}>Completed</button>
+    {{/unless}}
+    <button class="btn btn-mini btn-warning" {{action enterEditMode view.content}}>Edit</button>
+  </td>
+{{/if}}
