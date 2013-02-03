@@ -4,7 +4,7 @@ Todo.TaskTableRowShowView = Ember.View.extend
 
   doubleClick: (event) ->
     @clearTextSelection()
-    @$("button.edit").click()
+    @get('content').enterEditMode()
 
   clearTextSelection: ->
     if window.getSelection

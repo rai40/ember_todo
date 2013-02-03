@@ -1,4 +1,5 @@
 Todo.TasksTableController = Ember.ArrayController.extend
+  needs: ['list']
   itemController: 'TaskTableRow'
   isAddingNew: false
 
@@ -8,7 +9,7 @@ Todo.TasksTableController = Ember.ArrayController.extend
 
 
   addTask: ->
-    list = @controllerFor('list').get 'model'
+    list = @get('controllers.list').get 'model'
     store = list.get 'store'
     transaction = store.transaction()
     task = transaction.createRecord Todo.Task, list: list

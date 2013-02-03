@@ -1,4 +1,4 @@
 Todo.ListsController = Ember.ArrayController.extend
   persistedLists: Ember.computed ->
-    @get('content').filter (list) -> not list.get('isNew')
+    @filterProperty 'isNew', false
   .property('content.@each.isNew')

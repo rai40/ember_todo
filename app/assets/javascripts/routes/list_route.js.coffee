@@ -1,8 +1,7 @@
 Todo.ListRoute = Ember.Route.extend
+  needs: ['regrets']
+
   events:
     delete: ->
-      if confirm 'Are you sure you want to delete ' + @currentModel.get('name') + '?'
-        @currentModel.deleteRecord()
-        @currentModel.get('store').commit()
-        @transitionTo 'index'
-
+      @controllerFor('regrets').deleteWithRegret @currentModel
+      @transitionTo 'lists'
