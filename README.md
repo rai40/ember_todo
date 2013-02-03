@@ -24,12 +24,12 @@ What does it have examples of?
 * Twitter Bootstrap and Ember.
 * Simple views binding to DOM events triggering controller actions.
 * Validations.
+* Undo feature like Gmail when you delete lists and tasks.
 
 
 What is missing?
 ----------------
 * Complete-all-button, or other bulk-update things.
-* Drop the confirm delete, and instead implement an undo feature like Gmail.
 * JS tests.
 * Sort todo list by dragging rows.
 * Drag and drop tasks from one list to another.
