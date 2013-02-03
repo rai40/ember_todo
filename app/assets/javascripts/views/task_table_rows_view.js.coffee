@@ -5,18 +5,14 @@ Todo.TaskTableRowsView = Ember.CollectionView.extend
 
   itemViewClass: Ember.View.extend
     templateName: 'tasks/table_row'
-    classNameBindings: ['isEditing']
-
-    isEditing: Ember.computed ->
-      @get('content.isEditing')
-    .property('content.isEditing')
+    classNameBindings: ['content.isEditing']
 
     giveFocusToInput: ( (rowController, key) =>
       if rowController.get('isEditing')
         # We are getting called before the view has updated.
         # Lets wait to the next free moment to do our work.
         Ember.run.next @, -> @$("input[type=text]").focus()
-    ).observes('isEditing')
+    ).observes('content.isEditing')
 
     keyDown: (event) ->
       taskController = @get 'content'
