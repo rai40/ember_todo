@@ -14,17 +14,20 @@ Todo.TaskTableRowsView = Ember.CollectionView.extend
         Ember.run.next @, -> @$("input[type=text]").focus()
     ).observes('content.isEditing')
 
-    keyDown: (event) ->
-      taskController = @get 'content'
-      action = {27: 'cancelEditMode', 13: 'save'}[event.keyCode]
 
-      if action
-        $(event.target).blur()
-        taskController[action]()
+    keyDown: (event) ->
+      if @get('content.isEditing')
+        taskController = @get 'content'
+        action = {27: 'cancelEditMode', 13: 'save'}[event.keyCode]
+
+        if action
+          $(event.target).blur()
+          taskController[action]()
 
     doubleClick: (event) ->
-      @clearTextSelection()
-      @get('content').enterEditMode()
+      unless @get('content.isEditing')
+        @clearTextSelection()
+        @get('content').enterEditMode()
 
 
 
