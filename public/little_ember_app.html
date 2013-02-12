@@ -9,11 +9,40 @@
   </head>
   <body>
     <script type="text/javascript">
+      //
+      // APP
+      //
       App = Ember.Application.create();
 
+      //
+      // ROUTER
+      //
       App.Router.map(function() {
         this.route('about', {path: '/about'})
         this.route('why')
+      });
+
+      //
+      // CLASSES
+      //
+      App.Person = Ember.Object.extend({
+          firstName: "",
+          lastName: "",
+
+          fullName: function() {
+            return [this.get("firstName"), this.get('lastName')].join(' ');
+          }.property("firstName", "lastName")
+        })
+
+
+      //
+      // CONTROLLERS
+      //
+      App.MeController = Ember.ObjectController.extend({
+        content: App.Person.create({
+          firstName: "Thorbjørn",
+          lastName: "Hermansen"
+        })
       });
     </script>
 
@@ -34,7 +63,7 @@
 
 
     <script type="text/x-handlebars" id="index">
-      Hi from index!
+      {{render "me"}}
     </script>
 
     <script type="text/x-handlebars" id="about">
@@ -46,6 +75,22 @@
     </script>
 
 
+    <script type="text/x-handlebars" id="me">
+      Mitt navn er: {{fullName}}
+      <div>
+        <label>
+          Fornavn
+          {{view Ember.TextField valueBinding="firstName"}}
+        </label>
+      </div>
+
+      <div>
+        <label>
+          Fornavn
+          {{view Ember.TextField valueBinding="lastName"}}
+        </label>
+      </div>
+    </script>
 
   </body>
 </html>
