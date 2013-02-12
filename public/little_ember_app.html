@@ -20,12 +20,16 @@
 
     <script type="text/x-handlebars" id="application">
       <h1>Little Ember App</h1>
+      {{partial "menu"}}
+      {{outlet}}
+    </script>
+
+    <script type="text/x-handlebars" id="_menu">
       <ul>
         <li>{{#linkTo "index"}}Hjem{{/linkTo}}</li>
         <li>{{#linkTo "about"}}Om appen{{/linkTo}}</li>
         <li>{{#linkTo "why"}}Hvorfor?{{/linkTo}}</li>
       </ul>
-      {{outlet}}
     </script>
 
 
