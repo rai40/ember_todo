@@ -26,13 +26,28 @@
       // CLASSES
       //
       App.Person = Ember.Object.extend({
-          firstName: "",
-          lastName: "",
+        firstName: "",
+        lastName: "",
 
-          fullName: function() {
-            return [this.get("firstName"), this.get('lastName')].join(' ');
-          }.property("firstName", "lastName")
-        })
+        fullName: function() {
+          return [this.get("firstName"), this.get('lastName')].join(' ');
+        }.property("firstName", "lastName")
+      })
+
+      App.Person.reopenClass({
+        splitFullName: function(fullName) {
+          names = fullName.split(' ');
+
+          return {
+            firstName: names[0],
+            lastName: names.slice(1).join(' ')
+          };
+        },
+
+        createFromFullName: function(fullName) {
+          return this.create(this.splitFullName(fullName));
+        }
+      });
 
 
       //
@@ -43,6 +58,17 @@
           firstName: "Thorbjørn",
           lastName: "Hermansen"
         })
+      });
+
+      App.FriendsController = Ember.ArrayController.extend({
+        content: [],
+
+        newFriendName: "",
+
+        addFriend: function() {
+          this.pushObject(App.Person.createFromFullName(this.get('newFriendName')));
+          this.set('newFriendName', '')
+        }
       });
     </script>
 
@@ -64,6 +90,7 @@
 
     <script type="text/x-handlebars" id="index">
       {{render "me"}}
+      {{render "friends"}}
     </script>
 
     <script type="text/x-handlebars" id="about">
@@ -76,7 +103,7 @@
 
 
     <script type="text/x-handlebars" id="me">
-      Mitt navn er: {{fullName}}
+      <h3>Mitt navn er: {{fullName}}<h3>
       <div>
         <label>
           Fornavn
@@ -90,6 +117,22 @@
           {{view Ember.TextField valueBinding="lastName"}}
         </label>
       </div>
+    </script>
+
+    <script type="text/x-handlebars" id="friends">
+      <h4>Jeg har {{length}} venner..</h4>
+
+      <div>
+        <label>Legg til venn..</label>
+        {{view Ember.TextField valueBinding="newFriendName" action="addFriend"}}
+        <button {{action addFriend}}>Legg til</button>
+      </div>
+
+      {{#each friend in controller}}
+        <div>{{friend.fullName}}<div>
+      {{else}}
+      <p>Du kan legge til en venn!</p>
+      {{/each}}
     </script>
 
   </body>
