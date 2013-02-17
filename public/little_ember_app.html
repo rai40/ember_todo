@@ -83,16 +83,15 @@
       App.MeController = Ember.ObjectController.extend();
 
       App.FriendsController = Ember.ArrayController.extend({
-        needs: ['me'],
         newFriendName: "",
 
         addFriend: function() {
-          this.get('controllers.me.model.friends').createRecord(App.Person.splitFullName(this.get('newFriendName')));
+          this.get('content').createRecord(App.Person.splitFullName(this.get('newFriendName')));
           this.set('newFriendName', '');
         },
 
         removeFriend: function removeFriend(friend) {
-          this.get('controllers.me.model.friends').removeObject(friend);
+          this.get('content').removeObject(friend);
         }
       });
 
