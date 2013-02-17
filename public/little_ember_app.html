@@ -68,6 +68,10 @@
         addFriend: function() {
           this.pushObject(App.Person.createFromFullName(this.get('newFriendName')));
           this.set('newFriendName', '')
+        },
+
+        removeFriend: function removeFriend(friend) {
+          this.removeObject(friend);
         }
       });
     </script>
@@ -129,7 +133,10 @@
       </div>
 
       {{#each friend in controller}}
-        <div>{{friend.fullName}}<div>
+        <div>
+          <button {{action removeFriend friend}}>X</button>
+          {{friend.fullName}}
+        <div>
       {{else}}
       <p>Du kan legge til en venn!</p>
       {{/each}}
