@@ -53,12 +53,7 @@
       //
       // CONTROLLERS
       //
-      App.MeController = Ember.ObjectController.extend({
-        content: App.Person.create({
-          firstName: "Thorbjørn",
-          lastName: "Hermansen"
-        })
-      });
+      App.MeController = Ember.ObjectController.extend();
 
       App.FriendsController = Ember.ArrayController.extend({
         content: [],
@@ -72,6 +67,16 @@
 
         removeFriend: function removeFriend(friend) {
           this.removeObject(friend);
+        }
+      });
+
+
+      //
+      // ROUTES
+      //
+      App.ApplicationRoute = Ember.Route.extend({
+        setupController: function() {
+          this.controllerFor('me').set('content', App.Person.create({firstName: "Thorbjørn", lastName: "Hermansen"}));
         }
       });
     </script>
