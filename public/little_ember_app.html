@@ -6,6 +6,7 @@
     <script src="/assets/jquery.js" type="text/javascript"></script>
     <script src="/assets/handlebars.js" type="text/javascript"></script>
     <script src="/assets/ember.js" type="text/javascript"></script>
+    <script src="/assets/ember-data.js" type="text/javascript"></script>
   </head>
   <body>
     <script type="text/javascript">
@@ -13,6 +14,14 @@
       // APP
       //
       App = Ember.Application.create();
+
+      //
+      // STORE
+      //
+      App.Store = DS.Store.extend({
+        revision: 11,
+        adapter: 'DS.FixtureAdapter'
+      });
 
       //
       // ROUTER
@@ -25,14 +34,32 @@
       //
       // CLASSES
       //
-      App.Person = Ember.Object.extend({
-        firstName: "",
-        lastName: "",
+      App.Person = DS.Model.extend({
+        friends: DS.hasMany('App.Person'),
+
+        firstName: DS.attr('string'),
+        lastName: DS.attr('string'),
 
         fullName: function() {
           return [this.get("firstName"), this.get('lastName')].join(' ');
         }.property("firstName", "lastName")
-      })
+      });
+
+      App.Person.FIXTURES = [
+        {
+          id: "thorbjorn",
+          firstName: "Thorbjørn",
+          lastName: "Hermansen",
+          friends: []
+        },
+
+        {
+          id: "anders",
+          firstName: "Anders",
+          lastName: "Steinlein",
+          friends: []
+        }
+      ];
 
       App.Person.reopenClass({
         splitFullName: function(fullName) {
@@ -45,7 +72,7 @@
         },
 
         createFromFullName: function(fullName) {
-          return this.create(this.splitFullName(fullName));
+          return this.createRecord(this.splitFullName(fullName));
         }
       });
 
@@ -56,17 +83,16 @@
       App.MeController = Ember.ObjectController.extend();
 
       App.FriendsController = Ember.ArrayController.extend({
-        content: [],
-
+        needs: ['me'],
         newFriendName: "",
 
         addFriend: function() {
-          this.pushObject(App.Person.createFromFullName(this.get('newFriendName')));
-          this.set('newFriendName', '')
+          this.get('controllers.me.model.friends').createRecord(App.Person.splitFullName(this.get('newFriendName')));
+          this.set('newFriendName', '');
         },
 
         removeFriend: function removeFriend(friend) {
-          this.removeObject(friend);
+          this.get('controllers.me.model.friends').removeObject(friend);
         }
       });
 
@@ -76,7 +102,10 @@
       //
       App.ApplicationRoute = Ember.Route.extend({
         setupController: function() {
-          this.controllerFor('me').set('content', App.Person.create({firstName: "Thorbjørn", lastName: "Hermansen"}));
+          thorbjorn = App.Person.find('thorbjorn');
+
+          this.controllerFor('me').set('content', thorbjorn);
+          this.controllerFor('friends').set('content', thorbjorn.get('friends'));
         }
       });
     </script>
