@@ -13,7 +13,9 @@
       //
       // APP
       //
-      App = Ember.Application.create();
+      App = Ember.Application.create({
+        LOG_TRANSITIONS: true
+      });
 
       //
       // STORE
@@ -27,8 +29,16 @@
       // ROUTER
       //
       App.Router.map(function() {
-        this.route('about', {path: '/about'})
-        this.route('why')
+        this.route('about', {path: '/about'});
+        this.route('why');
+
+        this.resource('people', function() {
+          // this.route('new');
+
+          this.resource('person', {path: ':person_id'}, function() {
+            this.resource('friends');
+          })
+        });
       });
 
       //
@@ -50,7 +60,7 @@
           id: "thorbjorn",
           firstName: "Thorbjørn",
           lastName: "Hermansen",
-          friends: []
+          friends: ["anders"]
         },
 
         {
@@ -81,6 +91,11 @@
       // CONTROLLERS
       //
       App.MeController = Ember.ObjectController.extend();
+      App.PeopleController = Ember.ArrayController.extend({
+        persistedPeople: function() {
+          return this.get('content').filterProperty('isNew', false);
+        }.property('content')
+      });
 
       App.FriendsController = Ember.ArrayController.extend({
         newFriendName: "",
@@ -99,12 +114,19 @@
       //
       // ROUTES
       //
-      App.ApplicationRoute = Ember.Route.extend({
-        setupController: function() {
-          thorbjorn = App.Person.find('thorbjorn');
+      App.IndexRoute = Ember.Route.extend({
+        redirect: function() {
+          this.replaceWith('friends', App.Person.find('thorbjorn'));
+        }
+      });
 
-          this.controllerFor('me').set('content', thorbjorn);
-          this.controllerFor('friends').set('content', thorbjorn.get('friends'));
+      App.PeopleRoute = Ember.Route.extend({
+        model: function() { return App.Person.find() }
+      });
+
+      App.FriendsRoute = Ember.Route.extend({
+        setupController: function(controller) {
+          controller.set('content', this.controllerFor('person').get('friends'));
         }
       });
     </script>
@@ -124,12 +146,6 @@
       </ul>
     </script>
 
-
-    <script type="text/x-handlebars" id="index">
-      {{render "me"}}
-      {{render "friends"}}
-    </script>
-
     <script type="text/x-handlebars" id="about">
       Denne appen er laget av Thorbjørn.
     </script>
@@ -139,8 +155,27 @@
     </script>
 
 
-    <script type="text/x-handlebars" id="me">
-      <h3>Mitt navn er: {{fullName}}<h3>
+
+    <script type="text/x-handlebars" id="people">
+      <h2>Personer</h2>
+      <ul>
+        {{#each persistedPeople}}
+          <li>{{#linkTo "friends" this}}{{fullName}}{{/linkTo}}</li>
+        {{/each}}
+      </ul>
+
+      {{outlet}}
+    </script>
+
+    <script type="text/x-handlebars" id="person">
+      <hr>
+
+      {{partial "person/information"}}
+      {{outlet}}
+    </script>
+
+    <script type="text/x-handlebars" id="person/_information">
+      <h3>Nå viser vi: {{fullName}}<h3>
       <div>
         <label>
           Fornavn
